@@ -26,3 +26,6 @@ This is a chatbox replacement for Halo: Combat Evolved
 ###### More features coming soon!
 
 
+# Known bugs
+
+###### Sometimes some messages won't be colored
