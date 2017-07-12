@@ -4,24 +4,24 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 # Features
 
-> Bold text
+######  Bold text
 
-> Colored player names based on there team
+######  Colored player names based on there team
 
-> Chat history
+######  Chat history
 
 
 
 
 # Upcoming features
 
-> Support for all Halo versions (including Custom Edition)
+######  Support for all Halo versions (including Custom Edition)
 
-> Muting players
+######  Muting players
 
-> Font selection
+######  Font selection
 
-> Changing font size
+######  Changing font size
 
 
 
