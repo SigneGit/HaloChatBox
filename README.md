@@ -29,3 +29,10 @@ This is a chatbox replacement for Halo: Combat Evolved
 # Known bugs
 
 ###### Sometimes some messages won't be colored
+
+
+# Credits
+
+###### SilentK
+
+###### Btcc22
