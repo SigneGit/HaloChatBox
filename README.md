@@ -50,6 +50,7 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Sometimes some messages won't be colored
 
+###### Some players with Unicode names will break the entire chat line
 
 # Credits
 
