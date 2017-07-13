@@ -1,6 +1,12 @@
 # HaloChatBox
 This is a chatbox replacement for Halo: Combat Evolved
 
+# Prerequisites
+
+###### VS2012
+
+###### Microsoft DirectX SDK (June 2010)
+
 
 # Features
 
