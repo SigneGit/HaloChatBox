@@ -1,4 +1,4 @@
-# HaloChatBox
+# Halo Chat Box
 This is a chatbox replacement for Halo: Combat Evolved
 
 # Prerequisites
@@ -8,6 +8,10 @@ This is a chatbox replacement for Halo: Combat Evolved
 ###### Microsoft DirectX SDK (June 2010)
 
 ###### Microsoft Detours 1.5
+
+# How to install
+
+###### Simple place the dll into your "controls" folder thats in the root of your Halo install folder
 
 # Features
 
