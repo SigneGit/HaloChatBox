@@ -41,6 +41,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ######  Logging chat to file
 
+######  Seperating chat and kills to separate windows
+
 ###### More features coming soon!
 
 
