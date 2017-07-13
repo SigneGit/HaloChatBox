@@ -54,6 +54,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 # Credits
 
+###### Xzero213
+
 ###### SilentK
 
 ###### Btcc22
