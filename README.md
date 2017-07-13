@@ -1,6 +1,11 @@
 # Halo Chat Box
 This is a chatbox replacement for Halo: Combat Evolved
 
+# Screenshots
+
+###### Coming soon(TM)
+
+
 # Prerequisites
 
 ###### Visual Studio 2012
