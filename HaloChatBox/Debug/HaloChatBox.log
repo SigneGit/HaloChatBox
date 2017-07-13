@@ -1,0 +1,89 @@
+﻿Build started 7/13/2017 1:30:48 PM.
+     1>Project "C:\Users\Windows7\Dropbox\Projects\Memory Editing Stuff\Halo Stuff\HaloChatBox\HaloChatBox\HaloChatBox.vcxproj" on node 2 (Rebuild target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt d3dhook.h Main.cpp
+         Main.cpp
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(267): warning C4101: 'e' : unreferenced local variable
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(311): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(332): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(344): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(131): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(137): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(149): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(161): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(387): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(405): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(429): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+         d3dhook.h
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(267): warning C4101: 'e' : unreferenced local variable
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(311): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(332): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(344): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.lib" /MACHINE:X86 /FORCE:MULTIPLE /DLL Debug\d3dhook.obj
+         Debug\Main.obj
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
+     1>d3dhook.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+     1>Main.obj : warning LNK4006: "void __cdecl BorderedText(struct ID3DXFont *,char *,int,int,unsigned long,unsigned long)" (?BorderedText@@YAXPAUID3DXFont@@PADHHKK@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void __cdecl ColoredBorderText(struct ID3DXFont *,class std::vector<char *,class std::allocator<char *> >,int,int,unsigned long * const,unsigned long,int)" (?ColoredBorderText@@YAXPAUID3DXFont@@V?$vector@PADV?$allocator@PAD@std@@@std@@HHQAKKH@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void __cdecl DX_Init(unsigned long *)" (?DX_Init@@YAXPAK@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void * __cdecl DetourFunc(unsigned char *,unsigned char const *,int)" (?DetourFunc@@YAPAXPAEPBEH@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void __cdecl DrawTextW(struct ID3DXFont *,char *,int,int,unsigned long)" (?DrawTextW@@YAXPAUID3DXFont@@PADHHK@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long __stdcall MsgProc(struct HWND__ *,unsigned int,unsigned int,long)" (?MsgProc@@YGJPAUHWND__@@IIJ@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned long __stdcall hkDrawText(char *,float const * const)" (?hkDrawText@@YGKPADQBM@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long __stdcall hkEndScene(struct IDirect3DDevice9 *)" (?hkEndScene@@YGJPAUIDirect3DDevice9@@@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long __stdcall hkReset(struct IDirect3DDevice9 *,struct _D3DPRESENT_PARAMETERS_ *)" (?hkReset@@YGJPAUIDirect3DDevice9@@PAU_D3DPRESENT_PARAMETERS_@@@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long __stdcall hkSetViewport(struct IDirect3DDevice9 *,struct _D3DVIEWPORT9 const *)" (?hkSetViewport@@YGJPAUIDirect3DDevice9@@PBU_D3DVIEWPORT9@@@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void __cdecl hkTextOut(char *,float const * const)" (?hkTextOut@@YAXPADQBM@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void __cdecl hkTextSend(char *)" (?hkTextSend@@YAXPAD@Z) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "bool bMenu" (?bMenu@@3_NA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "bool bRunOnce" (?bRunOnce@@3_NA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long (__stdcall* oSetViewport)(struct IDirect3DDevice9 *,struct _D3DVIEWPORT9 const *)" (?oSetViewport@@3P6GJPAUIDirect3DDevice9@@PBU_D3DVIEWPORT9@@@ZA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long (__stdcall* oReset)(struct IDirect3DDevice9 *,struct _D3DPRESENT_PARAMETERS_ *)" (?oReset@@3P6GJPAUIDirect3DDevice9@@PAU_D3DPRESENT_PARAMETERS_@@@ZA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "int MenuPosX" (?MenuPosX@@3HA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "int MenuPosY" (?MenuPosY@@3HA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "int TotalMenuItems" (?TotalMenuItems@@3HA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "float g_fxCenter" (?g_fxCenter@@3MA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "float g_fyCenter" (?g_fyCenter@@3MA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned int g_uiStride" (?g_uiStride@@3IA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct _D3DVIEWPORT9 pViewport" (?pViewport@@3U_D3DVIEWPORT9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned int m_uiOffset" (?m_uiOffset@@3IA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "float m_fScreenX" (?m_fScreenX@@3MA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "float m_fScreenY" (?m_fScreenY@@3MA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct _D3DVIEWPORT9 g_pViewPort" (?g_pViewPort@@3U_D3DVIEWPORT9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct ID3DXFont * g_pFont1" (?g_pFont1@@3PAUID3DXFont@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct ID3DXFont * g_pFont2" (?g_pFont2@@3PAUID3DXFont@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct ID3DXLine * g_pLine1" (?g_pLine1@@3PAUID3DXLine@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct ID3DXSprite * g_pCursorSprite" (?g_pCursorSprite@@3PAUID3DXSprite@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DTexture9 * g_pCursorTexture" (?g_pCursorTexture@@3PAUIDirect3DTexture9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DVertexBuffer9 * g_pVertexBuffer" (?g_pVertexBuffer@@3PAUIDirect3DVertexBuffer9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DTexture9 * g_pTextureRed" (?g_pTextureRed@@3PAUIDirect3DTexture9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DTexture9 * g_pTextureBlue" (?g_pTextureBlue@@3PAUIDirect3DTexture9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DTexture9 * g_pTextureGreen" (?g_pTextureGreen@@3PAUIDirect3DTexture9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct IDirect3DTexture9 * g_pTextureYellow" (?g_pTextureYellow@@3PAUIDirect3DTexture9@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct Object_Table_Array * ObjectTableArray" (?ObjectTableArray@@3PAUObject_Table_Array@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct AMasterchief * Masterchief" (?Masterchief@@3PAUAMasterchief@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct AMasterchief * LocalMC" (?LocalMC@@3PAUAMasterchief@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct Static_Player * StaticPlayer" (?StaticPlayer@@3PAUStatic_Player@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct Static_Player * LocalPlayer" (?LocalPlayer@@3PAUStatic_Player@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "long (__stdcall* oEndScene)(struct IDirect3DDevice9 *)" (?oEndScene@@3P6GJPAUIDirect3DDevice9@@@ZA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned long LocalAddy" (?LocalAddy@@3KA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned long StaticPlayerHeaderAddy" (?StaticPlayerHeaderAddy@@3KA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "unsigned long ObjectTableHeaderAddy" (?ObjectTableHeaderAddy@@3KA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "void (__cdecl* oTextOut)(char *,float const * const)" (?oTextOut@@3P6AXPADQBM@ZA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct Object_Table_Header * ObjectTableHeader" (?ObjectTableHeader@@3PAUObject_Table_Header@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct Static_Player_Header * StaticPlayerHeader" (?StaticPlayerHeader@@3PAUStatic_Player_Header@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "struct ALocal * Local" (?Local@@3PAUALocal@@A) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "class _Menu ChatMenu" (?ChatMenu@@3V_Menu@@A) already defined in d3dhook.obj; second definition ignored
+            Creating library ..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.lib and object ..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.exp
+     1>..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.dll : warning LNK4088: image being generated due to /FORCE option; image may not run
+     1>detours.lib(detours.obj) : warning LNK4099: PDB 'detours.pdb' was not found with 'detours.lib(detours.obj)' or at 'C:\Games\Halo\CONTROLS\detours.pdb'; linking object as if no debug info
+     1>detours.lib(disasm.obj) : warning LNK4099: PDB 'detours.pdb' was not found with 'detours.lib(disasm.obj)' or at 'C:\Games\Halo\CONTROLS\detours.pdb'; linking object as if no debug info
+         HaloChatBox.vcxproj -> C:\Users\Windows7\Dropbox\Projects\Memory Editing Stuff\Halo Stuff\HaloChatBox\HaloChatBox\..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.dll
+     1>Done Building Project "C:\Users\Windows7\Dropbox\Projects\Memory Editing Stuff\Halo Stuff\HaloChatBox\HaloChatBox\HaloChatBox.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.61
