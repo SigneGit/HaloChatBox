@@ -17,6 +17,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Need to move stuff to an actual header file not just scattered all over the place
 
+###### Need to get a menu for other settings like disabling chat, disabling logging chat, all ingame
+
 # Prerequisites
 
 ###### Visual Studio 2012
