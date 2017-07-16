@@ -9,7 +9,13 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Halo PC 1.10
 
+# Some notes for what needs to be done internally
 
+###### Need to restructure
+
+###### Need to make the mute player window "more pretty"
+
+###### Need to move stuff to an actual header file not just scattered all over the place
 
 # Prerequisites
 
