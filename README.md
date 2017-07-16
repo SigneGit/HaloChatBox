@@ -26,20 +26,18 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ######  Chat history
 
+######  Muting players
 
+######  Logging chat to file
 
 
 # Upcoming features
 
 ######  Support for all Halo versions (including Custom Edition)
 
-######  Muting players
-
 ######  Font selection
 
 ######  Changing font size
-
-######  Logging chat to file
 
 ######  Seperating chat and kills to separate windows
 
