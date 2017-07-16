@@ -20,6 +20,9 @@
 
 
 
+
+
+
 //Colors
 #define tRed    D3DCOLOR_ARGB( 255, 255,   50,   50 )
 #define tGreen  D3DCOLOR_ARGB( 255,   0, 255,   0 )
@@ -35,10 +38,17 @@
 
 //Chatbox stuff
 
+int ChatPosX = 50;
+int ChatPosY = 300;
+int TotalChatItems = 0;
+#define MAX_CHAT_ITEMS 12
+
 int MenuPosX = 50;
 int MenuPosY = 300;
-int TotalMenuItems = 0;
-#define MAX_MENU_ITEMS 12
+int TotalMenuItems = 20;
+#define MAX_MENU_ITEMS 20
+
+
 
 //End Chatbox Stuff
 
@@ -70,6 +80,15 @@ IDirect3DTexture9 * g_pTextureBlue = NULL;
 IDirect3DTexture9 * g_pTextureGreen = NULL;
 IDirect3DTexture9 * g_pTextureYellow = NULL;
 
+
+struct _FromIni
+{
+	char* Font;
+	int BigFontSize;
+	int SmallFontSize;
+	char* LogChat;
+};
+_FromIni IniSettings;
 
 struct PlayerInfoBackup //Used to fix a bug / used to set the colors of quit
 {
@@ -266,6 +285,10 @@ extern ACamera *Camera;
 unsigned long LocalAddy = 0x402AD408; //Possibly set
 unsigned long StaticPlayerHeaderAddy = 0x402AAF94;
 unsigned long ObjectTableHeaderAddy = 0x400506B4; //Set to correct
+
+DWORD dwTextOut;
+int* TextBoxOpen = (int*)0x686A98;
+DWORD CurrentServerIP;
 
 Object_Table_Header *ObjectTableHeader = (Object_Table_Header*)ObjectTableHeaderAddy;     //4BB206B4 = trial
 Static_Player_Header *StaticPlayerHeader = (Static_Player_Header*)StaticPlayerHeaderAddy; //4BD7AF94 = trial

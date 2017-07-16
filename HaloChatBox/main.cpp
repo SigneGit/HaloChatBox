@@ -1,6 +1,12 @@
 #include "Main.h"
 #include <windows.h>
 #include "d3dhook.h"
+#include "Memory.h"
+
+#include "IniWriter.h"
+#include "IniReader.h"
+
+
 
 
 //These two functions are here so Halo loads the dll without needing to injecting it
@@ -28,49 +34,39 @@ extern "C" __declspec(dllexport, naked) bool Register()
 	__asm ret
 }
 
-
-
-
-
-
-bool GetPlayerByIndex(unsigned int index)
+void LogChat(std::string Text)
 {
-	if(index == -1)
-		return false;
-	StaticPlayer = 0, ObjectTableArray = 0, Masterchief = 0;
-	StaticPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
-	if(StaticPlayer->ObjectID != 65535 && StaticPlayer->ObjectID != 0)
-	{
-		if(StaticPlayer->ObjectIndex != Local->ObjectIndex && StaticPlayer->ObjectID != Local->ObjectID)
-		{
-			ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (StaticPlayer->ObjectIndex * ObjectTableHeader->Size));
-			Masterchief = (AMasterchief*)ObjectTableArray->Offset;
-			if(Masterchief == NULL)
-				return false;
-			return true;
-		}
-	}
-	return false;
-}
-//------------------------------------------------------------------------------
-bool GetLocalPlayer(unsigned int index)
-{
-	if(index == -1 || index == 65535)
-		return false;
-	LocalPlayer = 0, ObjectTableArray = 0, LocalMC = 0;
-	LocalPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
-	if(LocalPlayer->ObjectID != 65535 && LocalPlayer->ObjectID != 0)
-	{
-		ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (LocalPlayer->ObjectIndex * ObjectTableHeader->Size));
-		LocalMC = (AMasterchief*)ObjectTableArray->Offset;
-		return true;
-	}
-	return false;
+	time_t     now = time(0);
+	struct tm  tstruct;
+	char       buf[80];
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%Y-%m-%d.%X ", &tstruct);
+
+	CreateDirectory(".\\ChatLogs", NULL);
+
+	char ServerNameBuf[80];
+	strftime(ServerNameBuf, sizeof(ServerNameBuf), "%Y-%m-%d-", &tstruct);
+	std::string _ServerNameTemp = ServerNameBuf;
+	_ServerNameTemp += (char*)CurrentServerIP;
+	//_ServerNameTemp = _ServerNameTemp.substr(0, _ServerNameTemp.find(":", 0));
+	replace(_ServerNameTemp,":"," ");
+	_ServerNameTemp += ".txt";
+
+	
+
+	std::ofstream log(".\\ChatLogs\\" + _ServerNameTemp, std::ios_base::app | std::ios_base::out);
+	log << buf + Text + "\n";
 }
 
 
 
-uintptr_t ContinueChat = 0x4AB4C7;
+
+
+
+
+
+
+uintptr_t ContinueChat; //0x4AB4C7
 
 typedef void (*pChatHandler)(const wchar_t* message, bool chat);
 pChatHandler oChatHandler; 
@@ -84,6 +80,10 @@ void chatHandler(const wchar_t* message, bool chat) {
 	char buf[256];
 	sprintf(buf,"%S", message);
 	Text += buf;
+	if(IniSettings.LogChat)
+		LogChat(Text);
+
+
 
 	std::string PlayerName0 = "";
 	bool PlayerTeam0;
@@ -113,11 +113,10 @@ void chatHandler(const wchar_t* message, bool chat) {
 				char PlayerBuf[256];
 				sprintf(PlayerBuf,"%S", StaticPlayer->PlayerName1);
 				PlayerName = PlayerBuf;
-				//Should be the first player in the message
 
 
 
-				if(PlayerName.size() == 0){
+				if(PlayerName.size() == 0){ //when a player dies there name and team messes up? Needs to use a backup
 					if(PlayerBackup[i].PlayerName.size() > 0)
 					{
 						PlayerName = PlayerBackup[i].PlayerName;
@@ -131,7 +130,15 @@ void chatHandler(const wchar_t* message, bool chat) {
 					PlayerBackup[i].PlayerTeam = StaticPlayer->Team;
 
 				}
+				//Should be the first player in the message
 				if(StartsWith(Text,PlayerName)) {
+					if(StartsWith(Text,PlayerName + ": "))
+					{
+						if(MutedMenu.mi[i].on){ //should be if the current player is muted then just return
+							return;
+						}
+					}
+
 					PlayerName0 = PlayerName;
 					if(!UsedBackup)
 						PlayerTeam0 = StaticPlayer->Team;
@@ -144,6 +151,10 @@ void chatHandler(const wchar_t* message, bool chat) {
 				//example "Example1 was killed by Example2"
 
 				if(StartsWith(Text,"[" + PlayerName + "]: ")){
+					if(MutedMenu.mi[i].on){ //should be if the current player is muted then just return
+						return;
+					}
+
 					PlayerName0 = PlayerName;
 					if(!UsedBackup)
 						PlayerTeam0 = StaticPlayer->Team;
@@ -174,6 +185,9 @@ void chatHandler(const wchar_t* message, bool chat) {
 			if(StartsWith(Text,PlayerBackup[i].PlayerName)){
 				if(PlayerBackup[i].PlayerName.size() > 0)
 				{
+					if(MutedMenu.mi[i].on){ //should be if the current player is muted then just return
+						return;
+					}
 					PlayerName0 = PlayerBackup[i].PlayerName;
 					PlayerTeam0 = PlayerBackup[i].PlayerTeam;
 					continue;
@@ -181,6 +195,9 @@ void chatHandler(const wchar_t* message, bool chat) {
 			}
 
 			if(StartsWith(Text,"[" + PlayerBackup[i].PlayerName + "]: ")){
+				if(MutedMenu.mi[i].on){
+					return;
+				}
 				PlayerName0 = PlayerBackup[i].PlayerName;
 				PlayerTeam0 = PlayerBackup[i].PlayerTeam;
 				TeamMessage = true;
@@ -569,9 +586,42 @@ DWORD WINAPI initChat(LPVOID)
 
 	DX_Init(VTable);
 
+	TCHAR* ProcessName = GetProcessName();
 
 	DWORD dwOldProtect = 0;
+	DWORD ChatHand = FindPattern(ProcessName,"\xA1\x00\x00\x00\x00\x85\xC0\x74\x69\x8B\x0D\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00","x????xxxxxx????xx????");
+
+	if(ChatHand != NULL){
+		VirtualProtect((void*)ChatHand, 10, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+		oTextOut = (pTextOut)DetourFunc((PBYTE)ChatHand,(PBYTE)&chatHandlerStub, 6);
+		VirtualProtect((void*)ChatHand, 10, dwOldProtect, &dwOldProtect);
+	}
+
+	DWORD ChatHand1 = FindPattern(ProcessName,"\xA1\x00\x00\x00\x00\x85\xC0\x74\x66\x8B\x0D\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00","x????xxxxxx????xx????");
+	if(ChatHand1 != NULL){
+		WriteToMemory(ChatHand1,"\x90\x90\x90\x90\x90\x90\x90\xEB",8);
+	}
+	DWORD ChatHand2 = FindPattern(ProcessName,"\xA1\x00\x00\x00\x00\x85\xC0\x74\x6E\x8B\x0D\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00","x????xxxxxx????xx????");;
+
+	if(ChatHand2 != NULL){
+		WriteToMemory(ChatHand2,"\x90\x90\x90\x90\x90\x90\x90\xEB",8);
+	}
+
+	dwTextOut = FindPattern(ProcessName,"\x83\xEC\x10\x57\x8B\xF8\xA0\xFC\x2E\x6B\x00\x84\xC0","xxxxxxxxxxxxx");
+
+	ContinueChat = FindPattern(ProcessName,"\x85\xC0\x74\x69\x8B\x0D\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00","xxxxxx????xx????");
+
+	CurrentServerIP = 0x6A3F38;
+
+
+	//DWORD LocalAddy = FindPattern(ProcessName,"\x00\x00\x70\xEC\xFF\xFF\xFF\xFF\x01\x00\x00\x00\x00\x00\xFF\xFF","xxxxxxxxxxxxxxxx");
+
+	//MsgBoxAddy(LocalAddy);
+
+
+	/*DWORD dwOldProtect = 0;
 	DWORD ChatHand = 0x4AB4C2;
+
 	VirtualProtect((void*)ChatHand, 10, PAGE_EXECUTE_READWRITE, &dwOldProtect);
 	oTextOut = (pTextOut)DetourFunc((PBYTE)ChatHand,(PBYTE)&chatHandlerStub, 6);
 	VirtualProtect((void*)ChatHand, 10, dwOldProtect, &dwOldProtect);
@@ -594,8 +644,7 @@ DWORD WINAPI initChat(LPVOID)
 	WriteProcessMemory(hand, (void*)ChatHand2,buffer,8,nullptr);
 	VirtualProtectEx(hand, (void*)ChatHand2, 8,fOld,&fOld);
 
-
-
+	*/
 
 	HOOK(EndScene,VTable[ES]);
 	HOOK(Reset,VTable[RS]);
@@ -604,8 +653,81 @@ DWORD WINAPI initChat(LPVOID)
 	Sleep(3000);
 	hkTextSend("BetterChatbox by Xzero213 version 0.1!");
 
+	DWORD LocalAddyOffset[] = {0x4};
 
-	//chatHandler(L"This is a long message12345678901234567890",false);
+
+	LocalAddy = FindDmaAddy(1,LocalAddyOffset,0x87A478);
+
+	//GetIniValues();
+
+	if(is_file_exist(".\\CONTROLS\\HaloChatBox.ini"))
+	{
+		CIniReader iniReader(".\\CONTROLS\\HaloChatBox.ini");
+		char* _Font = iniReader.ReadString("settings","font","Ariel");
+		IniSettings.Font = _Font;
+		int BigFontSize = iniReader.ReadInteger("settings","bigfontsize",15);
+		IniSettings.BigFontSize = BigFontSize;
+		int SmallFontSize = iniReader.ReadInteger("settings","smallfontsize",13);
+		IniSettings.SmallFontSize = SmallFontSize;
+		char* _LogChat = iniReader.ReadString("multiplayer","logchat","false");
+		IniSettings.LogChat = _LogChat;
+	}else{
+
+		std::ofstream log(".\\CONTROLS\\HaloChatBox.ini", std::ios_base::app | std::ios_base::out);
+		log << "//This file contains all the settings for the chatbox\n";
+		log << "//Everything under Chatbox settings should be left on default unless you know what your doing\n";
+		log << "//If you change anything in here and it breaks simply delete this file\n";
+		log << "//a new one will be created when you start Halo again\n";
+		log << "\n";
+		log << "//Chatbox settings\n";
+		log << "//Font - Any font you have installed\n";
+		log << "//BigFontSize - anything higher than 20 is to big\n";
+		log << "//SmallFontSize - Anything smaller than 10 is to small\n";
+		log << "\n";
+		log << "//Multiplayer Options\n";
+		log << "//logchat - True/False enables logging of chat\n";
+
+
+		CIniWriter iniWriter(".\\CONTROLS\\HaloChatBox.ini");
+
+		
+
+
+
+		iniWriter.WriteString("settings","font","Ariel");
+		iniWriter.WriteInteger("settings","bigfontsize",15);
+		iniWriter.WriteInteger("settings","smallfontsize",13);
+		iniWriter.WriteString("multiplayer","logchat","false");
+
+		IniSettings.Font = "Ariel";
+		IniSettings.BigFontSize = 15;
+		IniSettings.SmallFontSize = 13;
+		IniSettings.LogChat = "false";
+
+		hkTextSend("Inifile created in CONTROLS\\HaloChatBox.ini");
+	}
+
+
+
+
+
+
+	//hkTextSend(IniSettings.BigFontSize);
+	//hkTextSend(IniSettings.SmallFontSize);
+	//hkTextSend(IniSettings.LogChat);
+
+
+	//0x87A478
+
+
+
+	//hkTextSend(IntToChar(test));
+
+	//TCHAR szExeFileName[MAX_PATH]; 
+	//GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+
+	//hkTextSend(GetProcessName());
+
 
 	return 0;
 }

@@ -19,7 +19,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -69,10 +69,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="d3dhook.h" />
+    <ClCompile Include="IniReader.cpp" />
+    <ClCompile Include="IniWriter.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IniReader.h" />
+    <ClInclude Include="IniWriter.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Memory.h" />
     <ClInclude Include="structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

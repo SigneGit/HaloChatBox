@@ -16,6 +16,43 @@
 #include <stdint.h>
 #include <string>
 
+
+bool GetPlayerByIndex(unsigned int index)
+{
+	if(index == -1)
+		return false;
+	StaticPlayer = 0, ObjectTableArray = 0, Masterchief = 0;
+	StaticPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
+	if(StaticPlayer->ObjectID != 65535 && StaticPlayer->ObjectID != 0)
+	{
+		if(StaticPlayer->ObjectIndex != Local->ObjectIndex && StaticPlayer->ObjectID != Local->ObjectID)
+		{
+			ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (StaticPlayer->ObjectIndex * ObjectTableHeader->Size));
+			Masterchief = (AMasterchief*)ObjectTableArray->Offset;
+			if(Masterchief == NULL)
+				return false;
+			return true;
+		}
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+bool GetLocalPlayer(unsigned int index)
+{
+	if(index == -1 || index == 65535)
+		return false;
+	LocalPlayer = 0, ObjectTableArray = 0, LocalMC = 0;
+	LocalPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
+	if(LocalPlayer->ObjectID != 65535 && LocalPlayer->ObjectID != 0)
+	{
+		ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (LocalPlayer->ObjectIndex * ObjectTableHeader->Size));
+		LocalMC = (AMasterchief*)ObjectTableArray->Offset;
+		return true;
+	}
+	return false;
+}
+
+
 __inline bool StartsWith(const std::string& text,const std::string& token)
 {
 	if(text.length() < token.length())
@@ -51,7 +88,7 @@ void hkTextOut( char * pString, const float fColor[4] )
 DWORD __stdcall hkDrawText(char *pString, const float fColor[4])
 {
 	DWORD dwOldProtect = 0;
-	DWORD dwTextOut = 0x00496B50;
+	//DWORD dwTextOut = 0x00496B50;
 	BYTE bTextOutOrig[6] = {0x83, 0xEC, 0x10, 0x57, 0x8B, 0xF8};
 
 	VirtualProtect((void*)dwTextOut, 10, PAGE_EXECUTE_READWRITE, &dwOldProtect);
@@ -158,7 +195,16 @@ void DrawText( LPD3DXFONT Font, char* pString, int x, int y, D3DCOLOR Color )
 typedef HRESULT ( WINAPI* tEndScene ) ( LPDIRECT3DDEVICE9 pDevice );
 tEndScene oEndScene;
 
+
 struct MenuItem
+{
+	bool on;
+	char* name;
+	int value;
+	bool istitle;
+};
+
+struct ChatItem
 {
 	std::vector<char*> text;
 	std::string FullMessage;
@@ -186,7 +232,10 @@ struct MenuItem
 
 };
 
-class _Menu
+
+
+
+class _ChatMenu
 {
 public:
 
@@ -197,8 +246,8 @@ public:
 	{
 		try
 		{
-			mi.push_back(MenuItem());
-			MenuItem temp;
+			mi.push_back(ChatItem());
+			ChatItem temp;
 
 			temp.text = FormattedText;
 			for(int i = 0;i < size;i++)
@@ -254,13 +303,13 @@ public:
 			temp.elapsed = 0;
 			temp.hidden = false;
 			time(&temp.start);
-			if(TotalMenuItems == 0)
+			if(TotalChatItems == 0)
 				mi.insert(mi.begin(),temp); //insert the chat message at position 0
 			else
-				mi.insert(mi.begin() + TotalMenuItems,temp); //insert the message at the last point
+				mi.insert(mi.begin() + TotalChatItems,temp); //insert the message at the last point
 
-			if(TotalMenuItems != MAX_MENU_ITEMS)
-				TotalMenuItems++;
+			if(TotalChatItems != MAX_CHAT_ITEMS)
+				TotalChatItems++;
 			else
 				mi.erase(mi.begin()); //Delete the first message when all of the lines are used up
 		}
@@ -272,6 +321,8 @@ public:
 
 	void AddItemToKills(char* text)
 	{
+
+
 
 	}
 
@@ -290,9 +341,9 @@ private:
 	//MenuItem mi[MAX_MENU_ITEMS];
 
 
-	std::vector<MenuItem> mi;
+	std::vector<ChatItem> mi;
 
-	std::vector<MenuItem> vKills;
+	std::vector<ChatItem> vKills;
 
 	HANDLE hand;
 
@@ -305,17 +356,16 @@ private:
 
 	void DrawChat(IDirect3DDevice9* pDevice)
 	{
-		int* TextBoxOpen = (int*)0x686A98;
-
-		if(StaticPlayerHeader->IsInMainMenu == 1 && TotalMenuItems > 0){
+		
+		if(StaticPlayerHeader->IsInMainMenu == 1 && TotalChatItems > 0){
 			for(int i = 0;i < mi.size();i++)
 				mi.erase(mi.begin());
-			TotalMenuItems = 0;
+			TotalChatItems = 0;
 			return;
 		}
 		//if(TextBoxOpen[0] == 0)
 		//	DrawFillRect(pDevice, MenuPosX, MenuPosY, 400, TotalMenuItems*12 + 20, 15,15,15); //250
-		for( int x = 0; x < TotalMenuItems; ++x)
+		for( int x = 0; x < TotalChatItems; ++x)
 		{
 
 			//char optname[256];
@@ -331,11 +381,11 @@ private:
 				if(mi[x].text.size() != 0){
 					for (int i = 0; i < mi[x].text.size(); i++)
 					{
-						ColoredBorderText(BigFont,mi[x].text,MenuPosX + 15,MenuPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
+						ColoredBorderText(BigFont,mi[x].text,ChatPosX + 15,ChatPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
 					}
 				}
 				else{
-					BorderedText(BigFont,StringToChar(mi[x].FullMessage),MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
+					BorderedText(BigFont,StringToChar(mi[x].FullMessage),ChatPosX + 15, ChatPosY + 12*x, tWhite,tBlack);
 				}
 			}
 
@@ -343,11 +393,11 @@ private:
 				if(mi[x].text.size() != 0){
 					for (int i = 0; i < mi[x].text.size(); i++)
 					{
-						ColoredBorderText(BigFont,mi[x].text,MenuPosX + 15,MenuPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
+						ColoredBorderText(BigFont,mi[x].text,ChatPosX + 15,ChatPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
 					}
 				}
 				else{
-					BorderedText(BigFont,StringToChar(mi[x].FullMessage),MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
+					BorderedText(BigFont,StringToChar(mi[x].FullMessage),ChatPosX + 15, ChatPosY + 12*x, tWhite,tBlack);
 				}
 			}
 
@@ -362,23 +412,23 @@ private:
 		//if(TextBoxOpen[0] == 0)
 		//	DrawFillRect(pDevice, MenuPosX, MenuPosY, 400, TotalMenuItems*12 + 20, 15,15,15); //250
 
-		for( int x = 0; x < TotalMenuItems; ++x)
+		/*for( int x = 0; x < TotalChatItems; ++x)
 		{
-			//char optname[256];
-			time(&vKills[x].end);
-			vKills[x].elapsed = difftime(vKills[x].end,vKills[x].start);
+		//char optname[256];
+		time(&vKills[x].end);
+		vKills[x].elapsed = difftime(vKills[x].end,vKills[x].start);
 
-			if(vKills[x].elapsed > 5)
-				vKills[x].hidden = true;
+		if(vKills[x].elapsed > 5)
+		vKills[x].hidden = true;
 
-			if(!vKills[x].hidden)
-				BorderedText(BigFont,vKills[x].text[0],MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
+		if(!vKills[x].hidden)
+		BorderedText(BigFont,vKills[x].text[0],MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
 
-			if(vKills[x].hidden && TextBoxOpen[0] == 0)
-				BorderedText(BigFont,(vKills[x].text[0]),MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
+		if(vKills[x].hidden && TextBoxOpen[0] == 0)
+		BorderedText(BigFont,(vKills[x].text[0]),MenuPosX + 15, MenuPosY + 12*x, tWhite,tBlack);
 
 		}
-
+		*/
 	}
 
 	void WriteMemory(int Addr,byte buffer[],int size)
@@ -393,7 +443,107 @@ private:
 
 
 };
-_Menu ChatMenu;
+_ChatMenu ChatMenu;
+
+class _Menu
+{
+
+public:
+
+	MenuItem mi[MAX_MENU_ITEMS];
+
+	
+	void KeyBoardInput()
+	{
+		if(CurrentMenuItem >= TotalMenuItems)
+		{
+			CurrentMenuItem = 0; //so you can loop up and down heheh
+		}
+		else if(CurrentMenuItem < 0)
+		{
+			CurrentMenuItem = (TotalMenuItems-1); //it starts at 0, remember
+		}
+
+		//KEYBOARD
+		if(GetAsyncKeyState(VK_DOWN)&1)
+		{
+			CurrentMenuItem ++;// nothing to explain really, same below..
+			if(mi[CurrentMenuItem].istitle)
+				CurrentMenuItem++;
+		}
+		if(GetAsyncKeyState(VK_UP)&1)
+		{
+			CurrentMenuItem --;
+			if(mi[CurrentMenuItem].istitle)
+				CurrentMenuItem--;
+		}
+		//Turns on and Off.
+
+
+		if(GetAsyncKeyState(VK_LEFT) &1 || GetAsyncKeyState(VK_RIGHT) &1)//maybe you want another key :P
+		{
+			mi[CurrentMenuItem].on = !mi[CurrentMenuItem].on; // a little toggle
+		}
+
+
+	}
+
+
+	void StartMenu(IDirect3DDevice9* pDevice)
+	{
+		static bool inited = false;
+		if(!inited)
+		{
+			inited = true;
+		}
+
+		DrawMuted(pDevice);
+		KeyBoardInput();
+	} 
+
+private:
+	int CurrentMenuItem;
+
+	void DrawFillRect(IDirect3DDevice9* dev, int x, int y, int w, int h,unsigned char r, unsigned char g, unsigned char b)
+	{
+		D3DCOLOR rectColor = D3DCOLOR_XRGB(r,g,b);
+		D3DRECT BarRect = { x, y, x + w, y + h }; 
+		dev->Clear(1,&BarRect,  D3DCLEAR_TARGET | D3DCLEAR_TARGET ,rectColor,0,0);
+	}
+
+	void DrawMuted(IDirect3DDevice9* pDevice)
+	{
+		DrawFillRect(pDevice, MenuPosX, MenuPosY, 400, 16*12 + 20, 15,15,15); //250
+		for( unsigned int x = 0; x < 16; ++x)
+		{
+			if( !GetLocalPlayer ( Local->PlayerIndex ) ){ //if local player then set to false
+				mi[x].on = false;
+				continue;
+			}
+			if ( !GetPlayerByIndex ( x ) ){ //not set to false here because on death it breaks itself
+				continue;
+			}
+			if ( StaticPlayer->PlayerID == 0 ){ //if invalid player ID set to false
+				mi[x].on = false;
+				continue;
+			}
+
+			char optname[35];
+			sprintf(optname, "[%s]" , mi[x].on ? "Muted" : "Unmuted");
+			char PlayerBuf[15];
+			sprintf(PlayerBuf,"%S", StaticPlayer->PlayerName1);
+
+			DrawText(mi[x].istitle ? BigFont : SmallFont, PlayerBuf ,MenuPosX + 15, MenuPosY + 12*x,tBlue); //draws name of hack
+			DrawText(SmallFont, optname ,MenuPosX + 140, MenuPosY + 12*x,mi[x].istitle ? tBlue : ( mi[x].on ? tGreen : tRed)); //draws value
+		}
+
+		DrawText(Menu,"-->",MenuPosX,MenuPosY + (12*CurrentMenuItem),tWhite);
+	}
+};
+_Menu MutedMenu;
+
+
+
 
 
 
@@ -417,6 +567,9 @@ HRESULT WINAPI hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		bRunOnce = false;
 	}
 	ChatMenu.StartMenu(pDevice);
+	if(bMenu)
+		MutedMenu.StartMenu(pDevice);
+
 	return oEndScene(pDevice);
 }
 typedef HRESULT ( WINAPI* tSetViewport ) ( LPDIRECT3DDEVICE9 pDevice, CONST D3DVIEWPORT9* pViewport );
