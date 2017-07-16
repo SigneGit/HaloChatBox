@@ -63,6 +63,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Some players with Unicode names will break the entire chat line
 
+###### A player with another players name inside there name will not color the entire chatline
+
 # Credits
 
 ###### Xzero213
