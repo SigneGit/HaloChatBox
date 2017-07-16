@@ -5,7 +5,7 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Coming soon(TM)
 
-# Supported Halo Versions:
+# Supported Halo Versions
 
 ###### Halo PC 1.10
 
