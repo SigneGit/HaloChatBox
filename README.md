@@ -5,6 +5,19 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ###### Coming soon(TM)
 
+# Supported Halo Versions
+
+###### Halo PC 1.10
+
+# Some notes for what needs to be done internally
+
+###### Need to restructure
+
+###### Need to make the mute player window "more pretty"
+
+###### Need to move stuff to an actual header file not just scattered all over the place
+
+###### Need to get a menu for other settings like disabling chat, disabling logging chat, all ingame
 
 # Prerequisites
 
@@ -26,20 +39,18 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ######  Chat history
 
+######  Muting players
 
+######  Logging chat to file
 
 
 # Upcoming features
 
 ######  Support for all Halo versions (including Custom Edition)
 
-######  Muting players
-
 ######  Font selection
 
 ######  Changing font size
-
-######  Logging chat to file
 
 ######  Seperating chat and kills to separate windows
 
@@ -51,6 +62,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 ###### Sometimes some messages won't be colored
 
 ###### Some players with Unicode names will break the entire chat line
+
+###### A player with another players name inside there name will not color the entire chatline
 
 # Credits
 
