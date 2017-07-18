@@ -43,7 +43,9 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 ######  Logging chat to file
 
+###### Font selection
 
+###### Changing font size
 
 # Upcoming features
 
