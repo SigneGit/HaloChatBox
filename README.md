@@ -44,13 +44,10 @@ This is a chatbox replacement for Halo: Combat Evolved
 ######  Logging chat to file
 
 
+
 # Upcoming features
 
 ######  Support for all Halo versions (including Custom Edition)
-
-######  Font selection
-
-######  Changing font size
 
 ######  Seperating chat and kills to separate windows
 
