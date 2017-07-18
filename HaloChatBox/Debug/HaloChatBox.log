@@ -1,20 +1,20 @@
-﻿Build started 7/16/2017 12:10:40 PM.
+﻿Build started 7/18/2017 12:27:35 PM.
      1>Project "C:\Users\Windows7\Dropbox\Projects\Memory Editing Stuff\Halo Stuff\HaloChatBox\HaloChatBox\HaloChatBox.vcxproj" on node 2 (Rebuild target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _WINDLL /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt d3dhook.h IniReader.cpp IniWriter.cpp Main.cpp
          Main.cpp
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(316): warning C4101: 'e' : unreferenced local variable
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(361): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(382): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(394): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(314): warning C4101: 'e' : unreferenced local variable
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(359): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(380): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(392): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(130): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(144): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(160): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(172): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(404): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(422): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(446): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(414): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(432): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\main.cpp(459): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
          IniWriter.cpp
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\iniwriter.cpp(14): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
@@ -29,10 +29,10 @@
      1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\inireader.cpp(32): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(357) : see declaration of 'sprintf'
          d3dhook.h
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(316): warning C4101: 'e' : unreferenced local variable
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(361): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(382): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(394): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(314): warning C4101: 'e' : unreferenced local variable
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(359): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(380): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\windows7\dropbox\projects\memory editing stuff\halo stuff\halochatbox\halochatbox\d3dhook.h(392): warning C4018: '<' : signed/unsigned mismatch
          Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\..\..\..\..\..\Games\Halo\CONTROLS\HaloChatBox.lib" /MACHINE:X86 /FORCE:MULTIPLE /DLL Debug\d3dhook.obj
@@ -58,8 +58,8 @@
      1>Main.obj : warning LNK4006: "int ChatPosX" (?ChatPosX@@3HA) already defined in d3dhook.obj; second definition ignored
      1>Main.obj : warning LNK4006: "int ChatPosY" (?ChatPosY@@3HA) already defined in d3dhook.obj; second definition ignored
      1>Main.obj : warning LNK4006: "int TotalChatItems" (?TotalChatItems@@3HA) already defined in d3dhook.obj; second definition ignored
-     1>Main.obj : warning LNK4006: "int MenuPosX" (?MenuPosX@@3HA) already defined in d3dhook.obj; second definition ignored
-     1>Main.obj : warning LNK4006: "int MenuPosY" (?MenuPosY@@3HA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "int MutePosX" (?MutePosX@@3HA) already defined in d3dhook.obj; second definition ignored
+     1>Main.obj : warning LNK4006: "int MutePosY" (?MutePosY@@3HA) already defined in d3dhook.obj; second definition ignored
      1>Main.obj : warning LNK4006: "int TotalMenuItems" (?TotalMenuItems@@3HA) already defined in d3dhook.obj; second definition ignored
      1>Main.obj : warning LNK4006: "float g_fxCenter" (?g_fxCenter@@3MA) already defined in d3dhook.obj; second definition ignored
      1>Main.obj : warning LNK4006: "float g_fyCenter" (?g_fyCenter@@3MA) already defined in d3dhook.obj; second definition ignored
@@ -111,4 +111,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.33
+Time Elapsed 00:00:03.61

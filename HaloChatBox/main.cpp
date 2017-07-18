@@ -277,26 +277,12 @@ void chatHandler(const wchar_t* message, bool chat) {
 			FormattedText.push_back(StringToChar(" " + PlayerName1));
 		}
 
-
-
 	}
 
 	if(PlayerName1.size() > 0){
 
 		//if(Text.find("died") != std::string::npos)
-		if(StartsWith(Text,PlayerName1 + " died"))
-		{
-			Color[1] = tWhite;
-			if(PlayerTeam1)
-				Color[0] = tBlue;
-			else
-				Color[0] = tRed;
-			size = 2;
-
-			std::string Temp = Text.erase(0, PlayerName1.size());
-			FormattedText.push_back(StringToChar(Temp));
-			FormattedText.push_back(StringToChar(" " + PlayerName1));
-		}
+		
 		if(StartsWith(Text,"You killed"))
 		{
 			Color[0] = tWhite;
@@ -312,11 +298,11 @@ void chatHandler(const wchar_t* message, bool chat) {
 		}
 	}
 	if(PlayerName0.size() > 0){
-		//if(Text.find("committed suicide") != std::string::npos)
-		if(StartsWith(Text,PlayerName0 + " committed suicide"))
+		
+		if(StartsWith(Text,PlayerName0 + " died"))
 		{
 			Color[1] = tWhite;
-			if(PlayerTeam1)
+			if(PlayerTeam0)
 				Color[0] = tBlue;
 			else
 				Color[0] = tRed;
@@ -325,8 +311,25 @@ void chatHandler(const wchar_t* message, bool chat) {
 			std::string Temp = Text.erase(0, PlayerName0.size());
 			FormattedText.push_back(StringToChar(PlayerName0 + " "));
 			FormattedText.push_back(StringToChar(Temp));
+		}
+
+
+		//if(Text.find("committed suicide") != std::string::npos)
+		if(StartsWith(Text,PlayerName0 + " committed suicide"))
+		{
+			if(PlayerTeam0)
+				Color[0] = tBlue;
+			else
+				Color[0] = tRed;
+			Color[1] = tWhite;
+			size = 2;
+
+			std::string Temp = Text.erase(0, PlayerName0.size());
+			FormattedText.push_back(StringToChar(PlayerName0 + " "));
+			FormattedText.push_back(StringToChar(Temp));
 
 		}
+
 	}
 
 
@@ -359,15 +362,22 @@ void chatHandler(const wchar_t* message, bool chat) {
 				Color[1] = tBlue;
 			else
 				Color[1] = tRed;
-			Color[2] = tGreen;
-			Color[3] = tWhite;
-			size = 4;
+			//Color[2] = tGreen;
+			Color[2] = tWhite;
+			size = 3;
 			std::string Temp = Text.erase(0,PlayerName0.size() + 2);
 
+			FormattedText.push_back("[Team]");
+			FormattedText.push_back(StringToChar(" " + PlayerName0));
+			FormattedText.push_back(StringToChar(Temp));
+
+			/*
 			FormattedText.push_back("[");
 			FormattedText.push_back(StringToChar(PlayerName0));
 			FormattedText.push_back("]");
 			FormattedText.push_back(StringToChar(Temp));
+
+			*/
 		}
 	}
 #pragma endregion
@@ -428,15 +438,18 @@ void chatHandler(const wchar_t* message, bool chat) {
 				Color[1] = tBlue;
 			else
 				Color[1] = tRed;
-			Color[2] = tGreen;
-			Color[3] = tWhite;
-			size = 4;
+			//Color[2] = tGreen;
+			Color[2] = tWhite;
+			size = 3;
 			std::string Temp = Text.erase(0,PlayerName0.size() + 2);
 
-			FormattedText.push_back("[");
-			FormattedText.push_back(StringToChar(PlayerName0));
-			FormattedText.push_back("]");
+
+
+			FormattedText.push_back("[Team]");
+			FormattedText.push_back(StringToChar(" " + PlayerName0));
 			FormattedText.push_back(StringToChar(Temp));
+
+
 		}
 
 		if(PlayerName1.size() > 0 && (Text.find("was killed by") != std::string::npos || 
@@ -494,6 +507,12 @@ void chatHandler(const wchar_t* message, bool chat) {
 	if (StartsWith(Text,"Welcome " + PlayerName1)) {
 		//if(Text.find("quit") != std::string::npos){
 
+
+
+
+
+
+
 		Color[0] = tWhite;
 		if(PlayerTeam1)
 			Color[1] = tBlue;
@@ -516,6 +535,7 @@ void chatHandler(const wchar_t* message, bool chat) {
 							PlayerName0 = PlayerBackup[i].PlayerName;
 							PlayerTeam0 = PlayerBackup[i].PlayerTeam;
 							PlayerBackup[i].PlayerName = "";
+							break;
 						}
 					}
 				}
@@ -548,6 +568,15 @@ void chatHandler(const wchar_t* message, bool chat) {
 		hkTextSend("An error occurred (array higher than 4) while formatting this message:");
 		hkTextSend(StringToChar(Text + " " + PlayerName0 + " " + PlayerName1));
 	}
+	/*if(size != FormattedText.size())
+	{
+		for(unsigned int i = 0;i < FormattedText.size();i++)
+			FormattedText.erase(FormattedText.begin());
+		hkTextSend("An error occurred (color size not equal) while formatting this message:");
+		hkTextSend(StringToChar(Text + " " + PlayerName0 + " " + PlayerName1));
+	}*/
+
+
 
 	ChatMenu.AddItemToChat(Text,FormattedText,Color,size, PlayerName0,PlayerTeam0,PlayerName1,PlayerTeam1,KillMessage,ChatMessage,TeamMessage);
 }
@@ -584,7 +613,6 @@ DWORD WINAPI initChat(LPVOID)
 	while(GetModuleHandleA("d3d9.dll")==NULL)
 		Sleep(250);
 
-	DX_Init(VTable);
 
 	TCHAR* ProcessName = GetProcessName();
 
@@ -646,12 +674,6 @@ DWORD WINAPI initChat(LPVOID)
 
 	*/
 
-	HOOK(EndScene,VTable[ES]);
-	HOOK(Reset,VTable[RS]);
-	HOOK(SetViewport,VTable[SV]);
-
-	Sleep(3000);
-	hkTextSend("BetterChatbox by Xzero213 version 0.1!");
 
 	DWORD LocalAddyOffset[] = {0x4};
 
@@ -671,6 +693,14 @@ DWORD WINAPI initChat(LPVOID)
 		IniSettings.SmallFontSize = SmallFontSize;
 		char* _LogChat = iniReader.ReadString("multiplayer","logchat","false");
 		IniSettings.LogChat = _LogChat;
+
+		ChatPosX = iniReader.ReadInteger("settings","ChatPosX",50);
+		ChatPosY = iniReader.ReadInteger("settings","ChatPosY",300);
+		MutePosX = iniReader.ReadInteger("settings","MutePosX",50);
+		MutePosY = iniReader.ReadInteger("settings","MutePosY",300);
+
+		if(IniSettings.LogChat)
+			hkTextSend("Logging to chat /ChatLogs/");
 	}else{
 
 		std::ofstream log(".\\CONTROLS\\HaloChatBox.ini", std::ios_base::app | std::ios_base::out);
@@ -683,6 +713,12 @@ DWORD WINAPI initChat(LPVOID)
 		log << "//Font - Any font you have installed\n";
 		log << "//BigFontSize - anything higher than 20 is to big\n";
 		log << "//SmallFontSize - Anything smaller than 10 is to small\n";
+
+		log << "//ChatPosX - The X position the chatbox is at\n";
+		log << "//ChatPosY - The Y position the chatbox is at\n";
+		log << "//MutePosX - The X position the Mute player window is at\n";
+		log << "//MutePosY - The Y position the Mute player window is at\n";
+
 		log << "\n";
 		log << "//Multiplayer Options\n";
 		log << "//logchat - True/False enables logging of chat\n";
@@ -697,6 +733,14 @@ DWORD WINAPI initChat(LPVOID)
 		iniWriter.WriteString("settings","font","Ariel");
 		iniWriter.WriteInteger("settings","bigfontsize",15);
 		iniWriter.WriteInteger("settings","smallfontsize",13);
+
+		iniWriter.WriteInteger("settings","ChatPosX",50);
+		iniWriter.WriteInteger("settings","ChatPoxY",300);
+
+		iniWriter.WriteInteger("settings","MutePosX",50);
+		iniWriter.WriteInteger("settings","MutePoxY",300);
+
+
 		iniWriter.WriteString("multiplayer","logchat","false");
 
 		IniSettings.Font = "Ariel";
@@ -707,9 +751,14 @@ DWORD WINAPI initChat(LPVOID)
 		hkTextSend("Inifile created in CONTROLS\\HaloChatBox.ini");
 	}
 
+	DX_Init(VTable);
 
+	HOOK(EndScene,VTable[ES]);
+	HOOK(Reset,VTable[RS]);
+	HOOK(SetViewport,VTable[SV]);
 
-
+	Sleep(3000);
+	hkTextSend("BetterChatbox by Xzero213 version 0.2!");
 
 
 	//hkTextSend(IniSettings.BigFontSize);
@@ -727,6 +776,7 @@ DWORD WINAPI initChat(LPVOID)
 	//GetModuleFileName(NULL, szExeFileName, MAX_PATH);
 
 	//hkTextSend(GetProcessName());
+
 
 
 	return 0;

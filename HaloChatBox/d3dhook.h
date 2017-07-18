@@ -239,8 +239,6 @@ class _ChatMenu
 {
 public:
 
-	int ChatboxVersionInfoHistory;
-
 	void AddItemToChat(std::string text,std::vector<char*> FormattedText,D3DCOLOR Colour[],int size, std::string PlayerName0,bool PlayerTeam0,std::string PlayerName1,bool PlayerTeam1,bool KillMessage,bool ChatMessage,bool TeamMessage)
 		//void AddItemToChat(ChatMessages ChatMessage)
 	{
@@ -450,7 +448,7 @@ class _Menu
 
 public:
 
-	MenuItem mi[MAX_MENU_ITEMS];
+	MenuItem mi[MAX_MUTE_ITEMS];
 
 	
 	void KeyBoardInput()
@@ -513,7 +511,12 @@ private:
 
 	void DrawMuted(IDirect3DDevice9* pDevice)
 	{
-		DrawFillRect(pDevice, MenuPosX, MenuPosY, 400, 16*12 + 20, 15,15,15); //250
+
+		//DrawFillRect(pDevice, MenuPosX, MenuPosY - 20, 200, 16*12 + 20, 15,15,15); //250
+
+		DrawFillRect(pDevice, MutePosX, MutePosY - 20, 200, 16*12 + 50, 15, 15, 15); //250
+		DrawText(BigFont, "Mute players" ,MutePosX, MutePosY - 20,tRed);
+
 		for( unsigned int x = 0; x < 16; ++x)
 		{
 			if( !GetLocalPlayer ( Local->PlayerIndex ) ){ //if local player then set to false
@@ -533,11 +536,11 @@ private:
 			char PlayerBuf[15];
 			sprintf(PlayerBuf,"%S", StaticPlayer->PlayerName1);
 
-			DrawText(mi[x].istitle ? BigFont : SmallFont, PlayerBuf ,MenuPosX + 15, MenuPosY + 12*x,tBlue); //draws name of hack
-			DrawText(SmallFont, optname ,MenuPosX + 140, MenuPosY + 12*x,mi[x].istitle ? tBlue : ( mi[x].on ? tGreen : tRed)); //draws value
+			DrawText(mi[x].istitle ? BigFont : SmallFont, PlayerBuf ,MutePosX + 15, MutePosY + 12*x,tWhite); //draws name of muted
+			DrawText(SmallFont, optname ,MutePosX + 140, MutePosY + 12*x,mi[x].istitle ? tBlue : ( mi[x].on ? tGreen : tRed)); //draws value
 		}
 
-		DrawText(Menu,"-->",MenuPosX,MenuPosY + (12*CurrentMenuItem),tWhite);
+		DrawText(Menu,"-->",MutePosX,MutePosY + (12*CurrentMenuItem),tWhite);
 	}
 };
 _Menu MutedMenu;
@@ -561,9 +564,15 @@ HRESULT WINAPI hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		//---------------------------------------------	
 		// Create our font
 		//---------------------------------------------
-		D3DXCreateFont(pDevice, 15, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Ariel"), &Menu);
+		D3DXCreateFont(pDevice, IniSettings.BigFontSize, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, IniSettings.Font, &Menu);
+		D3DXCreateFont(pDevice, IniSettings.SmallFontSize, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, IniSettings.Font, &SmallFont);
+		D3DXCreateFont(pDevice, IniSettings.BigFontSize, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, IniSettings.Font, &BigFont);
+
+		/*D3DXCreateFont(pDevice, 15, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Ariel"), &Menu);
 		D3DXCreateFont(pDevice, 13, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Ariel"), &SmallFont);
-		D3DXCreateFont(pDevice, 15, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Ariel"), &BigFont);
+		D3DXCreateFont(pDevice, 15, 0, FW_BOLD, 1, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, _T("Ariel"), &BigFont);*/
+
+
 		bRunOnce = false;
 	}
 	ChatMenu.StartMenu(pDevice);

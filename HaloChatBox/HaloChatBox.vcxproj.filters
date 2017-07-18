@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\IniReader">
+      <UniqueIdentifier>{35b47276-4842-41e9-abb0-1acf37fc505f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -21,11 +24,11 @@
     <ClCompile Include="d3dhook.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="IniReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IniWriter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files\IniReader</Filter>
+    </ClCompile>
+    <ClCompile Include="IniReader.cpp">
+      <Filter>Header Files\IniReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,10 +42,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IniWriter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\IniReader</Filter>
     </ClInclude>
     <ClInclude Include="IniReader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\IniReader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
