@@ -43,6 +43,15 @@ int ChatPosY = 300;
 int TotalChatItems = 0;
 #define MAX_CHAT_ITEMS 12
 
+int ChatMessageTime = 8;
+
+
+
+int KillsPosX = 1000;
+int KillsPosY = 75;
+
+
+
 int MutePosX = 50;
 int MutePosY = 300;
 int TotalMenuItems = 20;

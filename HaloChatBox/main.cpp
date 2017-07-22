@@ -104,9 +104,9 @@ void chatHandler(const wchar_t* message, bool chat) {
 	//pull out the players names
 	for(unsigned short i = 0;i < StaticPlayerHeader->MaxSlots;i++)
 	{
-		if(GetLocalPlayer(Local->PlayerIndex))
+		if(MutedMenu.GetLocalPlayer(Local->PlayerIndex))
 		{
-			if(GetPlayerByIndex(i))
+			if(MutedMenu.GetPlayerByIndex(i))
 			{
 				bool UsedBackup = false;
 				std::string PlayerName = "";
@@ -179,8 +179,7 @@ void chatHandler(const wchar_t* message, bool chat) {
 	}
 
 	if(PlayerName0.size() == 0 || PlayerName1.size() == 0) {
-		for(unsigned int i = 0;i < 16;i++){
-
+		for(unsigned int i = 0;i < 16;i++) {
 
 			if(StartsWith(Text,PlayerBackup[i].PlayerName)){
 				if(PlayerBackup[i].PlayerName.size() > 0)
@@ -213,11 +212,6 @@ void chatHandler(const wchar_t* message, bool chat) {
 					PlayerTeam1 = PlayerBackup[i].PlayerTeam;
 				}
 			}
-
-
-
-
-
 
 		}
 	}
@@ -285,6 +279,7 @@ void chatHandler(const wchar_t* message, bool chat) {
 		
 		if(StartsWith(Text,"You killed"))
 		{
+			KillMessage = true;
 			Color[0] = tWhite;
 			if(PlayerTeam1)
 				Color[1] = tBlue;
@@ -317,6 +312,7 @@ void chatHandler(const wchar_t* message, bool chat) {
 		//if(Text.find("committed suicide") != std::string::npos)
 		if(StartsWith(Text,PlayerName0 + " committed suicide"))
 		{
+			KillMessage = true;
 			if(PlayerTeam0)
 				Color[0] = tBlue;
 			else
@@ -328,6 +324,24 @@ void chatHandler(const wchar_t* message, bool chat) {
 			FormattedText.push_back(StringToChar(PlayerName0 + " "));
 			FormattedText.push_back(StringToChar(Temp));
 
+		}
+
+		if(Text.find("was killed by a vehicle") != std::string::npos)
+		{
+			if(PlayerTeam0)
+				Color[0] = tBlue;
+			else
+				Color[0] = tRed;
+
+			Color[1] = tWhite;
+
+			size = 2;
+
+			std::string Temp = Text;
+			Temp = Temp.erase(0,PlayerName0.size());
+
+			FormattedText.push_back(StringToChar(PlayerName0));
+			FormattedText.push_back(" was killed by a vehicle");
 		}
 
 	}
@@ -386,9 +400,9 @@ void chatHandler(const wchar_t* message, bool chat) {
 
 	if(PlayerName0.size() == 0)
 	{
-		GetLocalPlayer(Local->PlayerIndex);
+		MutedMenu.GetLocalPlayer(Local->PlayerIndex);
 		std::string LocalPlayerName = "";
-		char LocalPlayerBuf[256];
+		char LocalPlayerBuf[15];
 		sprintf(LocalPlayerBuf,"%S", LocalPlayer->PlayerName0);
 		LocalPlayerName = LocalPlayerBuf;
 
@@ -412,8 +426,10 @@ void chatHandler(const wchar_t* message, bool chat) {
 			&& (Text.find("was betrayed by") == std::string::npos)){
 				PlayerName0 = LocalPlayerName;
 				PlayerTeam0 = LocalPlayer->Team;
-				ChatMessage = true;
+				//ChatMessage = true;
 				LocalMessage = true;
+				KillMessage = true;
+
 
 				if(PlayerTeam0)
 					Color[0] = tBlue;
@@ -452,6 +468,8 @@ void chatHandler(const wchar_t* message, bool chat) {
 
 		}
 
+
+
 		if(PlayerName1.size() > 0 && (Text.find("was killed by") != std::string::npos || 
 			Text.find("was betrayed by") != std::string::npos))
 		{
@@ -488,9 +506,6 @@ void chatHandler(const wchar_t* message, bool chat) {
 			FormattedText.push_back(StringToChar(" " + PlayerName1));
 			//FormattedText.push_back(StringToChar(Temp));
 		}
-
-
-
 	}
 
 
@@ -506,12 +521,6 @@ void chatHandler(const wchar_t* message, bool chat) {
 	//Broken for some reason? The player isn't actually assigned a team or name on this frame but the message gets sent?
 	if (StartsWith(Text,"Welcome " + PlayerName1)) {
 		//if(Text.find("quit") != std::string::npos){
-
-
-
-
-
-
 
 		Color[0] = tWhite;
 		if(PlayerTeam1)
@@ -535,6 +544,8 @@ void chatHandler(const wchar_t* message, bool chat) {
 							PlayerName0 = PlayerBackup[i].PlayerName;
 							PlayerTeam0 = PlayerBackup[i].PlayerTeam;
 							PlayerBackup[i].PlayerName = "";
+							if(MutedMenu.mi[i].on)
+								MutedMenu.mi[i].on = false;
 							break;
 						}
 					}

@@ -17,40 +17,6 @@
 #include <string>
 
 
-bool GetPlayerByIndex(unsigned int index)
-{
-	if(index == -1)
-		return false;
-	StaticPlayer = 0, ObjectTableArray = 0, Masterchief = 0;
-	StaticPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
-	if(StaticPlayer->ObjectID != 65535 && StaticPlayer->ObjectID != 0)
-	{
-		if(StaticPlayer->ObjectIndex != Local->ObjectIndex && StaticPlayer->ObjectID != Local->ObjectID)
-		{
-			ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (StaticPlayer->ObjectIndex * ObjectTableHeader->Size));
-			Masterchief = (AMasterchief*)ObjectTableArray->Offset;
-			if(Masterchief == NULL)
-				return false;
-			return true;
-		}
-	}
-	return false;
-}
-//------------------------------------------------------------------------------
-bool GetLocalPlayer(unsigned int index)
-{
-	if(index == -1 || index == 65535)
-		return false;
-	LocalPlayer = 0, ObjectTableArray = 0, LocalMC = 0;
-	LocalPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
-	if(LocalPlayer->ObjectID != 65535 && LocalPlayer->ObjectID != 0)
-	{
-		ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (LocalPlayer->ObjectIndex * ObjectTableHeader->Size));
-		LocalMC = (AMasterchief*)ObjectTableArray->Offset;
-		return true;
-	}
-	return false;
-}
 
 
 __inline bool StartsWith(const std::string& text,const std::string& token)
@@ -257,6 +223,8 @@ public:
 			temp.PlayerTeam1 = PlayerTeam1;
 
 			temp.KillMessage = KillMessage;
+
+
 			temp.ChatMessage = ChatMessage;
 			temp.TeamMessage = TeamMessage;
 			temp.size = size;
@@ -354,13 +322,16 @@ private:
 
 	void DrawChat(IDirect3DDevice9* pDevice)
 	{
-		
+
 		if(StaticPlayerHeader->IsInMainMenu == 1 && TotalChatItems > 0){
-			for(int i = 0;i < mi.size();i++)
+			for(unsigned int i = 0;i < mi.size();i++)
 				mi.erase(mi.begin());
 			TotalChatItems = 0;
 			return;
 		}
+		if(GetAsyncKeyState(VK_F1))
+			return;
+
 		//if(TextBoxOpen[0] == 0)
 		//	DrawFillRect(pDevice, MenuPosX, MenuPosY, 400, TotalMenuItems*12 + 20, 15,15,15); //250
 		for( int x = 0; x < TotalChatItems; ++x)
@@ -370,8 +341,10 @@ private:
 			time(&mi[x].end);
 			mi[x].elapsed = difftime(mi[x].end,mi[x].start);
 
-			if(mi[x].elapsed > 8)
+			if(mi[x].elapsed > ChatMessageTime)
 				mi[x].hidden = true;
+
+
 
 
 
@@ -379,7 +352,10 @@ private:
 				if(mi[x].text.size() != 0){
 					for (int i = 0; i < mi[x].text.size(); i++)
 					{
+						//if(!mi[x].KillMessage)
 						ColoredBorderText(BigFont,mi[x].text,ChatPosX + 15,ChatPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
+						//else
+						//	ColoredBorderText(BigFont,mi[x].text,KillsPosX + 15,KillsPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
 					}
 				}
 				else{
@@ -391,7 +367,12 @@ private:
 				if(mi[x].text.size() != 0){
 					for (int i = 0; i < mi[x].text.size(); i++)
 					{
+
+						//if(!mi[x].KillMessage)
 						ColoredBorderText(BigFont,mi[x].text,ChatPosX + 15,ChatPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
+						//else
+						//	ColoredBorderText(BigFont,mi[x].text,KillsPosX + 15,KillsPosY + 12*x,mi[x].Color,tBlack,mi[x].size);
+
 					}
 				}
 				else{
@@ -448,9 +429,46 @@ class _Menu
 
 public:
 
+	bool GetPlayerByIndex(unsigned int index)
+	{
+		if(index == -1)
+			return false;
+		StaticPlayer = 0, ObjectTableArray = 0, Masterchief = 0;
+		StaticPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
+		if(StaticPlayer->ObjectID != 65535 && StaticPlayer->ObjectID != 0)
+		{
+			if(StaticPlayer->ObjectIndex != Local->ObjectIndex && StaticPlayer->ObjectID != Local->ObjectID)
+			{
+				ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (StaticPlayer->ObjectIndex * ObjectTableHeader->Size));
+				Masterchief = (AMasterchief*)ObjectTableArray->Offset;
+				if(Masterchief == NULL)
+					return false;
+				return true;
+			}
+		}
+		return false;
+	}
+	//------------------------------------------------------------------------------
+	bool GetLocalPlayer(unsigned int index)
+	{
+		if(index == -1 || index == 65535)
+			return false;
+		LocalPlayer = 0, ObjectTableArray = 0, LocalMC = 0;
+		LocalPlayer = (Static_Player*)(StaticPlayerHeader->FirstPlayer + (index * StaticPlayerHeader->SlotSize));
+		if(LocalPlayer->ObjectID != 65535 && LocalPlayer->ObjectID != 0)
+		{
+			ObjectTableArray = (Object_Table_Array*)(ObjectTableHeader->FirstObject + (LocalPlayer->ObjectIndex * ObjectTableHeader->Size));
+			LocalMC = (AMasterchief*)ObjectTableArray->Offset;
+			return true;
+		}
+		return false;
+	}
+
+
+
 	MenuItem mi[MAX_MUTE_ITEMS];
 
-	
+
 	void KeyBoardInput()
 	{
 		if(CurrentMenuItem >= TotalMenuItems)
@@ -500,6 +518,11 @@ public:
 	} 
 
 private:
+
+	
+
+
+
 	int CurrentMenuItem;
 
 	void DrawFillRect(IDirect3DDevice9* dev, int x, int y, int w, int h,unsigned char r, unsigned char g, unsigned char b)
