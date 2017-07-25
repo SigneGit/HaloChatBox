@@ -326,7 +326,7 @@ void chatHandler(const wchar_t* message, bool chat) {
 
 		}
 
-		if(Text.find("was killed by a vehicle") != std::string::npos)
+		if(Text.find("was killed by a vehicle") != std::string::npos && PlayerName1.size() == 0)
 		{
 			if(PlayerTeam0)
 				Color[0] = tBlue;
