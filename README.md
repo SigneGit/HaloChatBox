@@ -58,6 +58,8 @@ This is a chatbox replacement for Halo: Combat Evolved
 
 # Known bugs
 
+###### Only works in Windowed mode? Need to get this fixed
+
 ###### Sometimes some messages won't be colored
 
 ###### Some players with Unicode names will break the entire chat line
