@@ -1,3 +1,5 @@
+[Project discontinued for the time being, the code for this project looks like crap but you should be able to recreate it if you wish]
+
 # Halo Chat Box
 This is a chatbox replacement for Halo: Combat Evolved
 
